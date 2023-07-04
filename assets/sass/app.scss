@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap");
+
+$primary: #48371c;
+$secondary: #ff9d5f;
+
+$font-family-base: "Playfair Display", serif;
+$headings-font-family: "Dancing Script", cursive;
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 5,
+  7: $spacer * 7,
+  8: $spacer * 9,
+  9: $spacer * 12,
+);
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.bg-image {
+  background: url("../img/background.jpg");
+  background-size: cover;
+}
