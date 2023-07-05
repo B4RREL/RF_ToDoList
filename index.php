@@ -1,4 +1,7 @@
-<?php require_once("./template/header.php") ?>
+<?php 
+require_once("./template/header.php") ;
+require_once("./template/logined.php");
+?>
     
 <section>
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
@@ -21,18 +24,39 @@
                     Login Form
                 </div>
                 <div class="card-body">
-                    <form action="" method="">
+                    <form action="./login.php" method="POST">
                         <div class="form-group">
                             <label for="" class="form-label">Email</label>
-                            <input type="email" class="form-control" placeholder="Enter your Email...">
+                            <input type="email" name="userEmail" class="form-control" placeholder="Enter your Email...">
+                            <p class="text-danger">
+                                <?php 
+                                    if(isset($_COOKIE['emptyEmail'])){
+                                        echo $_COOKIE['emptyEmail'];
+                                        setcookie('emptyEmail', '', time() - 3600);
+                                    }
+                                    if(isset($_COOKIE['invalidEmail'])){
+                                        echo $_COOKIE['invalidEmail'];
+                                        setcookie('invalidEmail', '', time() - 3600);
+                                    }
+                                ?>
                         </div>
                         <div class="form-group mt-3">
                             <label for="" class="form-label">Password</label>
-                            <input type="password" value="" class="form-control" placeholder="Enter your Password...">
+                            <input type="password" name="userPassword" value="" class="form-control" placeholder="Enter your Password...">
+                            <p class="text-danger">
+                                <?php 
+                                    if(isset($_COOKIE['emptyPassword'])){
+                                        echo $_COOKIE['emptyPassword'];
+                                        setcookie('emptyPassword', '', time() - 3600);
+                                    }
+                                    if(isset($_COOKIE['wrongPassword'])){
+                                        echo $_COOKIE['wrongPassword'];
+                                        setcookie('wrongPassword', '', time() - 3600);
+                                    }
+                                ?>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3 w-100">
-                            Login
-                        </button>
+                        <input type="submit" name="login" value="Login" class="btn btn-primary mt-3 w-100" />
+                          
                     </form>
                 </div>
             </div>

@@ -2,7 +2,10 @@
 session_start(); 
 require_once("./template/header.php");
 require_once("./template/db.php");
+require_once("./template/logined.php");
  ?>
+
+
 
 <?php 
     if(isset($_POST["register"])){
@@ -17,6 +20,18 @@ require_once("./template/db.php");
         if(!isset($_POST["userEmail"]) || $_POST["userEmail"] == ""){
             $status = false;
             setcookie('emptyEmail', "You have to fill your Email!");
+        }else {
+           $sql = "SELECT * FROM users WHERE email = :email";
+           $stmt = $conn->prepare($sql);
+           $stmt->execute([
+            ":email" => $_POST['userEmail'],
+           ]);
+           $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+           if($row){
+             $status = false;
+             setcookie('sameEmail', "Email has already been taken");
+           }
         }
         //password validation
         if(!isset($_POST["userPassword"]) || $_POST["userPassword"] == ""){
@@ -73,6 +88,7 @@ require_once("./template/db.php");
             ]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             // store user id
+            // to protect from view source
             $_SESSION['userID'] = rand(0000000,9999999).$user['id'].rand(0000000000,9999999999);
 
             header('Location: ./dashboard.php');
@@ -108,7 +124,7 @@ require_once("./template/db.php");
                             <label for="name" class="form-label">Name</label>
                             <input type="name" name="userName" id="name" class="form-control" placeholder="Enter your Name...">
                             <p class="text-danger">
-                                <?php 
+                                <?php  //flash message
                                     if(isset($_COOKIE['emptyName'])){
                                         echo $_COOKIE['emptyName'];
                                         setcookie('emptyName', '', time() - 3600);
@@ -124,6 +140,10 @@ require_once("./template/db.php");
                                     if(isset($_COOKIE['emptyEmail'])){
                                         echo $_COOKIE['emptyEmail'];
                                         setcookie('emptyEmail', '', time() - 3600);
+                                    }
+                                    if(isset($_COOKIE['sameEmail'])){
+                                        echo $_COOKIE['sameEmail'];
+                                        setcookie('sameEmail', '', time() - 3600);
                                     }
                                 ?>
                             </p>

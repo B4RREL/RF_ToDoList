@@ -1,5 +1,7 @@
 <?php
+    session_start();
     require_once "./template/header.php";
+    require_once "./template/notlogin.php";
 ?>
     <section>
         <nav class="navbar navbar-expand-lg bg-transparent fixed-top">
@@ -17,7 +19,7 @@
                             <a class="nav-link text-primary" href="./create.php">Create</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-primary" href="">Logout</a>
+                            <a class="nav-link text-primary" href="./logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>
