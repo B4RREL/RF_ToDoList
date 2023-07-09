@@ -66,6 +66,10 @@ require_once("./template/logined.php");
        
 
         if($status && $strongPassword){
+            //delete old email and name
+            setcookie("oldRegisterName", "", time() - 3600);
+            setcookie("oldRegisterEmail", "", time() - 3600);
+
             $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)"; 
             $stmt = $conn->prepare($sql);
             $stmt->execute([
@@ -93,6 +97,8 @@ require_once("./template/logined.php");
 
             header('Location: ./dashboard.php');
         }else{
+            setcookie("oldRegisterName", $_POST['userName']);
+            setcookie("oldRegisterEmail", $_POST['userEmail']);
             header("Location: ./register.php");
         }
     }
@@ -122,7 +128,11 @@ require_once("./template/logined.php");
                     <form action="./register.php" method="POST">
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>
-                            <input type="name" name="userName" id="name" class="form-control" placeholder="Enter your Name...">
+                            <input type="name" name="userName" id="name" class="form-control" value="<?php 
+                            if(isset($_COOKIE['oldRegisterName'])){
+                                echo htmlentities($_COOKIE['oldRegisterName']);
+                            }
+                            ?>" placeholder="Enter your Name...">
                             <p class="text-danger">
                                 <?php  //flash message
                                     if(isset($_COOKIE['emptyName'])){
@@ -134,7 +144,11 @@ require_once("./template/logined.php");
                         </div>
                         <div class="form-group mt-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" name="userEmail"  id="email" class="form-control" placeholder="Enter your Email...">
+                            <input type="email" name="userEmail"  id="email" class="form-control" value="<?php
+                            if(isset($_COOKIE['oldRegisterEmail'])){
+                                echo htmlentities($_COOKIE['oldRegisterEmail']);
+                            }
+                            ?>" placeholder="Enter your Email...">
                             <p class="text-danger">
                                 <?php 
                                     if(isset($_COOKIE['emptyEmail'])){

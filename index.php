@@ -27,7 +27,11 @@ require_once("./template/logined.php");
                     <form action="./login.php" method="POST">
                         <div class="form-group">
                             <label for="" class="form-label">Email</label>
-                            <input type="email" name="userEmail" class="form-control" placeholder="Enter your Email...">
+                            <input type="email" name="userEmail" class="form-control" value="<?php 
+                            if(isset($_COOKIE['oldEmail'])){
+                                echo htmlentities($_COOKIE['oldEmail']);
+                            }
+                            ?>" placeholder="Enter your Email...">
                             <p class="text-danger">
                                 <?php 
                                     if(isset($_COOKIE['emptyEmail'])){

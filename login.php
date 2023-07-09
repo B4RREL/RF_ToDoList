@@ -25,8 +25,11 @@ require_once('./template/db.php');
                 ":email" => $_POST['userEmail'],
             ]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                if($row) {
+                if($row) { //extra login for if email was wrong
                     if(password_verify($_POST['userPassword'],$row['password'])){
+
+                    // delete old email
+                    setcookie("oldEmail", "", time() - 3600);
 
                     // store session for login
                         $_SESSION['token'] = rand(0000000,9999999) . '_'. $_POST['userName'].rand(0000000,9999999);
@@ -46,13 +49,16 @@ require_once('./template/db.php');
                         header('Location: ./dashboard.php');
                     } else {
                         setcookie("wrongPassword", "Wrong Password");
+                        setcookie("oldEmail", $_POST['userEmail']); // old email
                         header("Location: ./index.php");
                     }
                 } else {
                     setcookie('invalidEmail', "This email has not registered yet");
+                    setcookie("oldEmail", $_POST['userEmail']);
                     header("Location: ./index.php");
                 }
         } else {
+            setcookie("oldEmail", $_POST['userEmail']);
             header("Location: ./index.php");
         }
     }
