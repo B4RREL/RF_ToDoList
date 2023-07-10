@@ -1,7 +1,8 @@
 <?php 
 session_start();
 require_once "./template/header.php"; 
-require_once "./template/notlogin.php";
+require_once "./template/utilities.php";
+notLogined();
 ?>
 
     <section>
