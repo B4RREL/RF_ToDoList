@@ -49,4 +49,11 @@ function oldData($data){
         echo htmlentities($_COOKIE[$data]);
     }
 }
+
+// block function for edit and delete page
+function block($userIdFromList, $currentUserId){
+    if($userIdFromList != $currentUserId){
+        header("Location: ./notfound.php");
+    }
+}
 ?> 

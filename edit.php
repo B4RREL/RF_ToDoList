@@ -12,6 +12,13 @@
         ":id" => $_GET['id'],
     ]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $currentUserId = getUserID();
+
+    //to prevent editing other users data
+    // current login user id is not equal to user id from the list
+    // it will redirect to not found page
+    block($row['user_id'],$currentUserId);
 ?>
 <?php 
     if(isset($_POST['editBtn'])){
@@ -32,7 +39,7 @@
         if($status){
              //delete old data
             setcookie("oldData", "",time() - 3600);
-            
+
             $sql = "UPDATE to_do_list SET title = :title, deadline = :deadline WHERE id = :id";
             $stmt = $conn->prepare($sql);
             $stmt->execute([
