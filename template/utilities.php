@@ -30,9 +30,9 @@ function notLogined(){
 
 //get UserId   
 function getUserID() {
-        if(isset($_SESSION['userID'])){
-        $length = strlen($_SESSION['userID']) - 17;
-        $userId = substr($_SESSION['userID'],7,$length);
+        if(isset($_COOKIE['userID'])){
+        $length = strlen($_COOKIE['userID']) - 17;
+        $userId = substr($_COOKIE['userID'],7,$length);
         return $userId;
     }
 }

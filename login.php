@@ -2,6 +2,7 @@
 session_start(); 
 require_once('./template/utilities.php');
 $conn = database("localhost","to_do_list","root","");
+
 ?>
 <?php 
 // implemeting logic for login page
@@ -47,7 +48,10 @@ $conn = database("localhost","to_do_list","root","");
                             ':email' => $_POST['userEmail'],
                         ]);
                         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $_SESSION['userID'] = rand(0000000,9999999). $user['id']. rand(0000000000,9999999999);
+
+                        // store user id in cookies
+                        setcookie("userID",rand(0000000,9999999). $user['id']. rand(0000000000,9999999999));
+                        // $_SESSION['userID'] = rand(0000000,9999999). $user['id']. rand(0000000000,9999999999);
 
                         header('Location: ./dashboard.php');
                     } else {
