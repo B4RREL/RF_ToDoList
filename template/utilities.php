@@ -22,7 +22,7 @@ function logined() {
 // not login
 function notLogined(){
     if(empty($_SESSION['token'])){
-        if(empty($_SESSION['token'])){
+        if(empty($_COOKIE['token'])){
             header('Location: ./index.php');
         }
     }

@@ -4,7 +4,17 @@ require_once "./template/header.php";
 require_once "./template/utilities.php";
 notLogined();
 ?>
+<?php 
+ $conn = database("localhost","to_do_list","root","");
+ $userId = getUserID();
 
+ $sql = "SELECT * FROM to_do_list WHERE user_id = :user_id";
+ $stmt = $conn->prepare($sql);
+ $stmt->execute([
+    ":user_id" => $userId,
+ ]);
+ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
     <section>
             <nav class="navbar navbar-expand-lg bg-transparent fixed-top">
                 <div class="container-sm-fluid container-md">
@@ -31,8 +41,13 @@ notLogined();
 
     <section class="min-vh-100 container-fluid container-md">
         <div class="pt-9 pt-md-6 mx-3">
+            <p style="color: green">
+                <?php 
+                flashMessage('success');
+                ?>
+            </p>
             <h3 class="text-secondary display-6">To do Lists</h3>
-            <?= $_SESSION['userID'][7] ?>
+            
             <table class="table table-striped">
                 <thead>
                     <tr class="row">
@@ -43,57 +58,29 @@ notLogined();
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    <tr class='row'>
-                        <td class='text-secondary col-4'>Cooking</td>
-                        <td class='text-secondary col-4'>12.2.2023</td>
-                        <td class='ps-4 col-2'>
-                            <form action=''>
-                                <input type='checkbox' name='' class='form-check' $checked >
-                            </form>
-                        </td>
-                        <td class='text-secondary col-2 d-flex'>
-                            <a href=''>
-                                <i class='bi bi-pencil-square me-3'></i>
-                            </a>
-                            <a href=''>
-                                <i class='bi bi-trash'></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr class='row'>
-                        <td class='text-secondary col-4'>Cooking</td>
-                        <td class='text-secondary col-4'>12.2.2023</td>
-                        <td class='ps-4 col-2'>
-                            <form action=''>
-                                <input type='checkbox' name='' class='form-check' $checked >
-                            </form>
-                        </td>
-                        <td class='text-secondary col-2 d-flex'>
-                            <a href=''>
-                                <i class='bi bi-pencil-square me-3'></i>
-                            </a>
-                            <a href=''>
-                                <i class='bi bi-trash'></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr class='row'>
-                        <td class='text-secondary col-4'>Cooking</td>
-                        <td class='text-secondary col-4'>12.2.2023</td>
-                        <td class='ps-4 col-2'>
-                            <form action=''>
-                                <input type='checkbox' name='' class='form-check' $checked >
-                            </form>
-                        </td>
-                        <td class='text-secondary col-2 d-flex'>
-                            <a href=''>
-                                <i class='bi bi-pencil-square me-3'></i>
-                            </a>
-                            <a href=''>
-                                <i class='bi bi-trash'></i>
-                            </a>
-                        </td>
-                    </tr>
+                    
+                    <?php
+                        foreach($rows as $row){
+                            $deadline = date('M-d-Y',strtotime($row['deadline']));
+                            echo "<tr class='row'>
+                            <td class='text-secondary col-4'>{$row['title']}</td>
+                            <td class='text-secondary col-4'>$deadline</td>
+                            <td class='ps-4 col-2'>
+                                <form action=''>
+                                    <input type='checkbox' name='' class='form-check'>
+                                </form>
+                            </td>
+                            <td class='text-secondary col-2 d-flex'>
+                                <a href='edit.php?id={$row['id']}'>
+                                    <i class='bi bi-pencil-square me-3'></i>
+                                </a>
+                                <a href='delete.php?id={$row['id']}'>
+                                    <i class='bi bi-trash'></i>
+                                </a>
+                            </td>
+                        </tr>";
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>
