@@ -1,8 +1,10 @@
 <?php
+    session_start();
     require_once "./template/header.php";
     require_once "./template/utilities.php";
     $conn = database("localhost","to_do_list","root","");
     notLogined();
+    
 ?>
 <?php 
     // old data
@@ -14,6 +16,7 @@
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $currentUserId = getUserID();
+    
 
     //to prevent editing other users data
     // current login user id is not equal to user id from the list

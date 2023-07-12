@@ -6,6 +6,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+    <style>
+        .text-line {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
     <div class="bg-image min-vh-100">

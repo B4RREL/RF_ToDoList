@@ -3,6 +3,9 @@ session_start();
 require_once "./template/header.php"; 
 require_once "./template/utilities.php";
 notLogined();
+    // if(isset($_COOKIE['userID'])){
+    //     header("Location: ./index.php");
+    // } // to redirect to index.php and activate logined function which delete userID cookie and redirect back to dashboard
 ?>
 <?php 
  $conn = database("localhost","to_do_list","root","");
@@ -62,21 +65,31 @@ notLogined();
                     <?php
                         foreach($rows as $row){
                             $deadline = date('M-d-Y',strtotime($row['deadline']));
-                            echo "<tr class='row'>
+                            if($row['done'] == 1){
+                                $checked = "checked";
+                                $line = "text-line";
+                            } else {
+                                $checked = "";
+                                $line = "";
+                            }
+                            echo "<tr class='row $line'>
                             <td class='text-secondary col-4'>{$row['title']}</td>
                             <td class='text-secondary col-4'>$deadline</td>
                             <td class='ps-4 col-2'>
-                                <form action=''>
-                                    <input type='checkbox' name='' class='form-check'>
+                                <form action='' class='checkForm'>
+                                    <input type='checkbox' id='{$row['id']}' class='form-check' $checked>
                                 </form>
                             </td>
                             <td class='text-secondary col-2 d-flex'>
                                 <a href='edit.php?id={$row['id']}'>
                                     <i class='bi bi-pencil-square me-3'></i>
                                 </a>
-                                <a href='delete.php?id={$row['id']}'>
+                               <div>
                                     <i class='bi bi-trash'></i>
-                                </a>
+                                    <form class='deletForm' action='delete.php' method='POST'>
+                                       <input type='hidden' name='id' value='{$row['id']}'>
+                                    </form>
+                                </div>
                             </td>
                         </tr>";
                         }
@@ -89,3 +102,4 @@ notLogined();
 <?php
     require_once "./template/footer.php"
 ?>
+<script src="./assets/js/app.js"></script>

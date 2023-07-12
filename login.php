@@ -39,8 +39,7 @@ $conn = database("localhost","to_do_list","root","");
                     // store session for login
                         $_SESSION['token'] = rand(0000000,9999999) . '_'. $_POST['userEmail'].rand(0000000,9999999);
 
-                    // store cookie for login
-                        setcookie('token', $_SESSION['token'], time() + (3600*24));
+                   
 
                         $sql = "SELECT * FROM users WHERE email = :email";
                         $stmt = $conn->prepare($sql);
@@ -48,10 +47,13 @@ $conn = database("localhost","to_do_list","root","");
                             ':email' => $_POST['userEmail'],
                         ]);
                         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+                            
                         // store user id in cookies
-                        setcookie("userID",rand(0000000,9999999). $user['id']. rand(0000000000,9999999999));
-                        // $_SESSION['userID'] = rand(0000000,9999999). $user['id']. rand(0000000000,9999999999);
+                         // store cookie for login
+                         setcookie('token',rand(0000000,9999999) . $user['id'] . rand(0000000000,9999999999), time() + (3600*24));
+                        $_SESSION['userID'] = rand(0000000,9999999) . $user['id'] . rand(0000000000,9999999999);
+                        // setcookie("userID",$_SESSION['userID'],time() + (3600 * 24));
+                        
 
                         header('Location: ./dashboard.php');
                     } else {

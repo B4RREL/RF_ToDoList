@@ -1,15 +1,17 @@
 <?php 
+session_start();
      require_once "./template/header.php";
      require_once "./template/utilities.php";
      $conn = database("localhost","to_do_list","root","");
      notLogined();
+    
 ?>
 <?php 
     // old data
     $sql = "SELECT * FROM to_do_list WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->execute([
-        ":id" => $_GET['id'],
+        ":id" => $_POST['id'],
     ]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -23,7 +25,7 @@
         $sql = "DELETE FROM to_do_list WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ":id" => $_GET['id'],
+            ":id" => $_POST['id'],
         ]);
 
         setcookie("success", "You deleted a list");

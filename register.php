@@ -82,8 +82,7 @@ logined();
             // store session for login
                 $_SESSION['token'] = rand(0000000,9999999) . '_'. $_POST['userName'].rand(0000000,9999999);
 
-            // store cookie for login
-                setcookie('token', $_SESSION['token'], time() + (3600*24));
+    
 
             //get user form data base
             $sql = "SELECT id FROM users WHERE email = :email";
@@ -94,8 +93,13 @@ logined();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             // store user id
             // to protect from view source
-            setcookie("userID",rand(0000000,9999999). $user['id']. rand(0000000000,9999999999));
-            // $_SESSION['userID'] = rand(0000000,9999999).$user['id'].rand(0000000000,9999999999);
+
+           ;
+           
+            $_SESSION['userID'] = rand(0000000,9999999) . $user['id'] . rand(0000000000,9999999999);
+            // setcookie("userID",$_SESSION['userID'], time() + (3600 * 24));
+             // store cookie for login
+             setcookie('token',$_SESSION['userID'] , time() + (3600*24));
 
             header('Location: ./dashboard.php');
         }else{

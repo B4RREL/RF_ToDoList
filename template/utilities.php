@@ -15,6 +15,9 @@ function database($localhost, $dbname, $user, $pass) {
 // logined 
 function logined() {
     if(isset($_SESSION['token']) || isset($_COOKIE['token'])){
+        if(isset($_COOKIE['token'])){
+            $_SESSION['userID'] = $_COOKIE['token'];
+        }
             header("Location: ./dashboard.php");
         }
 }
@@ -30,9 +33,9 @@ function notLogined(){
 
 //get UserId   
 function getUserID() {
-        if(isset($_COOKIE['userID'])){
-        $length = strlen($_COOKIE['userID']) - 17;
-        $userId = substr($_COOKIE['userID'],7,$length);
+        if(isset($_SESSION['userID'])){
+        $length = strlen($_SESSION['userID']) - 17;
+        $userId = substr($_SESSION['userID'],7,$length);
         return $userId;
     }
 }
