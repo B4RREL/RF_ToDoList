@@ -94,12 +94,11 @@ logined();
             // store user id
             // to protect from view source
 
-           ;
+            setcookie("token",rand(0000000,9999999). $user['id']. rand(0000000000,9999999999));
+            $_SESSION['userID'] = rand(0000000,9999999). $user['id']. rand(0000000000,9999999999);
            
-            $_SESSION['userID'] = rand(0000000,9999999) . $user['id'] . rand(0000000000,9999999999);
-            // setcookie("userID",$_SESSION['userID'], time() + (3600 * 24));
-             // store cookie for login
-             setcookie('token',$_SESSION['userID'] , time() + (3600*24));
+           
+          
 
             header('Location: ./dashboard.php');
         }else{

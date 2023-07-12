@@ -15,11 +15,15 @@ function database($localhost, $dbname, $user, $pass) {
 // logined 
 function logined() {
     if(isset($_SESSION['token']) || isset($_COOKIE['token'])){
+
         if(isset($_COOKIE['token'])){
             $_SESSION['userID'] = $_COOKIE['token'];
+
+        
         }
             header("Location: ./dashboard.php");
-        }
+        
+}
 }
     
 // not login

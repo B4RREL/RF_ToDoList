@@ -3,9 +3,7 @@ session_start();
 require_once "./template/header.php"; 
 require_once "./template/utilities.php";
 notLogined();
-    // if(isset($_COOKIE['userID'])){
-    //     header("Location: ./index.php");
-    // } // to redirect to index.php and activate logined function which delete userID cookie and redirect back to dashboard
+
 ?>
 <?php 
  $conn = database("localhost","to_do_list","root","");
